@@ -1,0 +1,74 @@
+@charset "utf-8";
+
+.TestClass {
+	color: Black;
+	background-color: White;
+	text-align: left;
+}
+
+input.small {
+	width: 2em;
+	margin: 5px 10px 5px 0px;
+}
+
+div#counters {
+	background-color: lightgray;
+	font-weight: bold;
+	width: 275px;
+	padding: 5px;
+}
+
+div#counters > div {
+	display: inline-grid;
+}
+
+div.right {
+	float: right;
+}
+
+div#gameboard {
+	overflow: auto;
+}
+
+span.digits {
+	background-color: black;
+	color: lime;
+	font: normal 20px 'OCR A Extended', monospace;
+	padding: 3px;
+}
+
+table {
+	background-color: lightgray;
+	border: 5px ridge lightgray;
+	border-spacing: 0px;
+	font: 900 20px Calibri, sans-serif;
+	-webkit-user-select: none;
+	-webkit-touch-callout: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+td {
+	padding: 0;
+	text-align: center;
+	overflow: hidden;
+	border: 3px outset white;
+	min-width: 24px;
+	width: 24px;
+	max-width: 24px;
+	min-height: 24px;
+	height: 24px;
+	max-height: 24px;
+}
+
+td.down {
+	border: 1px solid gray;
+	min-width: 28px;
+	width: 28px;
+	max-width: 28px;
+	min-height: 28px;
+	height: 28px;
+	max-height: 28px;
+}
