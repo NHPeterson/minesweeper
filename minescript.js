@@ -16,8 +16,9 @@ function gameTimer() {
 		timer.innerHTML = time.toString().padStart(3, "0");
 	}, 1000);
 }
+let gameType = 1;
 
-// on page load, assign functions to buttons, and create the beginner puzzle
+// on page load, assign functions to buttons, load high scores, and create the beginner puzzle
 window.onload = function() {
 	document.getElementById("beginner").onclick = beginnerButton;
 	document.getElementById("intermediate").onclick = intermediateButton;
@@ -26,6 +27,21 @@ window.onload = function() {
 	document.getElementById("height").value = 9;
 	document.getElementById("width").value = 9;
 	document.getElementById("mines").value = 10;
+	if (!localStorage.getItem("mine_score1")) {
+		localStorage.setItem("mine_name1", "(none)");
+		localStorage.setItem("mine_score1", "(none)");
+		localStorage.setItem("mine_name2", "(none)");
+		localStorage.setItem("mine_score2", "(none)");
+		localStorage.setItem("mine_name3", "(none)");
+		localStorage.setItem("mine_score3", "(none)");
+	} else {
+		document.getElementById("beg_name").innerHTML = localStorage.getItem("mine_name1");
+		document.getElementById("beg_score").innerHTML = localStorage.getItem("mine_score1");
+		document.getElementById("int_name").innerHTML = localStorage.getItem("mine_name2");
+		document.getElementById("int_score").innerHTML = localStorage.getItem("mine_score2");
+		document.getElementById("exp_name").innerHTML = localStorage.getItem("mine_name3");
+		document.getElementById("exp_score").innerHTML = localStorage.getItem("mine_score3");
+	}
 	createGame();
 }
 
@@ -190,8 +206,6 @@ function mouseUp(e) {
 								gameTable.rows[targetRow + i].cells[targetCol + j].setAttribute("state", "clear");
 								mineEngine(gameTable.rows[targetRow + i].cells[targetCol + j]);
 							}
-							//triggerMouseClick(gameTable.rows[targetRow + i].cells[targetCol + j], "mousedown");
-							//triggerMouseClick(gameTable.rows[targetRow + i].cells[targetCol + j], "mouseup");
 						}
 					}
 				} else {
@@ -232,14 +246,6 @@ function mouseOut(e) {
 		}
 	}
 	mouseInt = 0;
-}
-
-// NO LONGER USED
-// simulated mouse event trigger
-function triggerMouseClick(targetCell, eType) {
-	var clickEvent = document.createEvent("MouseEvent");
-	clickEvent.initMouseEvent(eType, true, true);
-	targetCell.dispatchEvent(clickEvent);
 }
 
 // engine
@@ -301,8 +307,6 @@ function mineEngine(targetCell) {
 						if (cellCoords.indexOf(coordsStr) === -1) {
 							cellCoords.push(coordsStr);
 						}
-						//triggerMouseClick(gameTable.rows[targetRow + i].cells[targetCol + j], "mousedown");
-						//triggerMouseClick(gameTable.rows[targetRow + i].cells[targetCol + j], "mouseup");
 					}
 				}
 				if (targetCell.getAttribute("state") === "clear") {
@@ -359,6 +363,7 @@ function mineEngine(targetCell) {
 		cellsLeft -= 1;
 		if (cellsLeft === 0) {
 			clearInterval(timerF);
+			gameTable.setAttribute("started", "no");
 			for (var i = 0; i < gameTable.rows.length; i++) {
 				for (var j = 0; j < gameTable.rows[i].cells.length; j++) {
 					gameTable.rows[i].cells[j].removeEventListener("mousedown", mouseDown);
@@ -371,12 +376,46 @@ function mineEngine(targetCell) {
 					}
 				}
 			}
-			setTimeout(function() { alert("You win!"); }, 10);
+			let timeScore = parseInt(document.getElementById("timer").innerHTML);
+			if (gameType === 1 && (localStorage.getItem("mine_score1") === "(none)" || localStorage.getItem("mine_score1") > timeScore)) {
+				setTimeout(function() {
+					let hiName = prompt("New best time! Enter your name:");
+					if (hiName) {
+						localStorage.setItem("mine_name1", hiName);
+						document.getElementById("beg_name").innerHTML = hiName;
+						localStorage.setItem("mine_score1", timeScore);
+						document.getElementById("beg_score").innerHTML = timeScore;
+					}
+				}, 100);
+			} else if (gameType === 2 && (localStorage.getItem("mine_score2") === "(none)" || localStorage.getItem("mine_score2") > timeScore)) {
+				setTimeout(function() {
+					let hiName = prompt("New best time! Enter your name:");
+					if (hiName) {
+						localStorage.setItem("mine_name2", hiName);
+						document.getElementById("int_name").innerHTML = hiName;
+						localStorage.setItem("mine_score2", timeScore);
+						document.getElementById("int_score").innerHTML = timeScore;
+					}
+				}, 100);
+			} else if (gameType === 3 && (localStorage.getItem("mine_score3") === "(none)" || localStorage.getItem("mine_score3") > timeScore)) {
+				setTimeout(function() {
+					let hiName = prompt("New best time! Enter your name:");
+					if (hiName) {
+						localStorage.setItem("mine_name3", hiName);
+						document.getElementById("exp_name").innerHTML = hiName;
+						localStorage.setItem("mine_score3", timeScore);
+						document.getElementById("exp_score").innerHTML = timeScore;
+					}
+				}, 100);
+			} else {
+				setTimeout(function() { alert("You win!"); }, 100);
+			}
 		}
 	}
 	// if mine clicked, lose game
 	else {
 		clearInterval(timerF);
+		gameTable.setAttribute("started", "no");
 		for (var i = 0; i < gameTable.rows.length; i++) {
 			for (var j = 0; j < gameTable.rows[i].cells.length; j++) {
 				gameTable.rows[i].cells[j].removeEventListener("mousedown", mouseDown);
@@ -400,37 +439,40 @@ function mineEngine(targetCell) {
 
 // beginner
 function beginnerButton() {
-	if (confirm("This will reset the game!")) {
+	if (document.querySelector("[started]").getAttribute("started") === "no" || confirm("This will reset the game!")) {
 		document.getElementById("height").value = 9;
 		document.getElementById("width").value = 9;
 		document.getElementById("mines").value = 10;
+		gameType = 1;
 		createGame();
 	}
 }
 
 // intermediate
 function intermediateButton() {
-	if (confirm("This will reset the game!")) {
+	if (document.querySelector("[started]").getAttribute("started") === "no" || confirm("This will reset the game!")) {
 		document.getElementById("height").value = 16;
 		document.getElementById("width").value = 16;
 		document.getElementById("mines").value = 40;
+		gameType = 2;
 		createGame();
 	}
 }
 
 // expert
 function expertButton() {
-	if (confirm("This will reset the game!")) {
+	if (document.querySelector("[started]").getAttribute("started") === "no" || confirm("This will reset the game!")) {
 		document.getElementById("height").value = 16;
 		document.getElementById("width").value = 30;
 		document.getElementById("mines").value = 99;
+		gameType = 3;
 		createGame();
 	}
 }
 
 // custom
 function customButton() {
-	if (confirm("This will reset the game!")) {
+	if (document.querySelector("[started]").getAttribute("started") === "no" || confirm("This will reset the game!")) {
 		var height = document.getElementById("height");
 		var width = document.getElementById("width");
 		var mines = document.getElementById("mines");
@@ -448,6 +490,7 @@ function customButton() {
 		if (minesNum >= (heightNum * widthNum)) {
 			mines.value = heightNum * widthNum - 1;
 		}
+		gameType = 4;
 		createGame();
 	}
 }
