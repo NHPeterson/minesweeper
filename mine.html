@@ -1,33 +1,64 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>MINEFINDER</title>
+	<title>MINESWEEPER</title>
 	<link href="minestyle.css" rel="stylesheet" />
 	<script src="minescript.js" defer></script>
 </head>
 <body>
-	<div>
-		<label for="height">Height:</label>
-		<input class="small" id="height" name="height" type="text" />
-		<label for="width">Width:</label>
-		<input class="small" id="width" name="width" type="text" />
-		<label for="mines">Mines:</label>
-		<input class="small" id="mines" name="mines" type="text" />
-	</div>
-	<input id="beginner" name="beginner" value="Beginner" type="button" />
-	<input id="intermediate" name="intermediate" value="Intermediate" type="button" />
-	<input id="expert" name="expert" value="Expert" type="button" />
-	<input id="custom" name="custom" value="Custom" type="button" />
-	<div id="counters">
+	<section>
 		<div>
-			Flags<br />
-			<span id="flags" class="digits">000</span>
+			<label for="height">Height:</label>
+			<input class="small" id="height" name="height" type="text" />
+			<label for="width">Width:</label>
+			<input class="small" id="width" name="width" type="text" />
+			<label for="mines">Mines:</label>
+			<input class="small" id="mines" name="mines" type="text" />
 		</div>
-		<div class="right">
-			Time<br />
-			<span id="timer" class="digits">000</span>
+		<input id="beginner" name="beginner" value="Beginner" type="button" />
+		<input id="intermediate" name="intermediate" value="Intermediate" type="button" />
+		<input id="expert" name="expert" value="Expert" type="button" />
+		<input id="custom" name="custom" value="Custom" type="button" />
+		<div id="counters">
+			<div>
+				Flags<br />
+				<span id="flags" class="digits">000</span>
+			</div>
+			<div class="right">
+				Time<br />
+				<span id="timer" class="digits">000</span>
+			</div>
 		</div>
-	</div>
+	</section>
+	<aside>
+		<table id="scores">
+			<caption>Best Times</caption>
+			<thead>
+				<tr>
+					<th>Level</th>
+					<th>Name</th>
+					<th>Time</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Beginner</td>
+					<td id="beg_name">(none)</td>
+					<td id="beg_score">(none)</td>
+				</tr>
+				<tr>
+					<td>Intermediate</td>
+					<td id="int_name">(none)</td>
+					<td id="int_score">(none)</td>
+				</tr>
+				<tr>
+					<td>Expert</td>
+					<td id="exp_name">(none)</td>
+					<td id="exp_score">(none)</td>
+				</tr>
+			</tbody>
+		</table>
+	</aside>
 	<div id="gameboard"></div>
 </body>
 </html>
