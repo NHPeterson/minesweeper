@@ -1,9 +1,30 @@
 @charset "utf-8";
 
-.TestClass {
-	color: Black;
-	background-color: White;
-	text-align: left;
+body {
+  padding: 10px;
+  background-color: lightgray;
+  color: black;
+}
+
+section {
+  float: left;
+}
+
+aside {
+  float: left;
+  max-width: 50%;
+  margin: 10px;
+  padding: 5px;
+  border: 3px groove white;
+}
+
+aside table {
+  border-collapse: collapse;
+}
+
+aside td {
+  padding: 0 5px;
+  border: 1px solid gray;
 }
 
 input.small {
@@ -11,14 +32,13 @@ input.small {
 	margin: 5px 10px 5px 0px;
 }
 
-div#counters {
-	background-color: lightgray;
+#counters {
 	font-weight: bold;
 	width: 275px;
 	padding: 5px;
 }
 
-div#counters > div {
+#counters > div {
 	display: inline-grid;
 }
 
@@ -26,8 +46,9 @@ div.right {
 	float: right;
 }
 
-div#gameboard {
+#gameboard {
 	overflow: auto;
+	clear: both;
 }
 
 span.digits {
@@ -37,7 +58,7 @@ span.digits {
 	padding: 3px;
 }
 
-table {
+#gameboard table {
 	background-color: lightgray;
 	border: 5px ridge lightgray;
 	border-spacing: 0px;
@@ -50,7 +71,7 @@ table {
 	user-select: none;
 }
 
-td {
+#gameboard td {
 	padding: 0;
 	text-align: center;
 	overflow: hidden;
@@ -63,7 +84,7 @@ td {
 	max-height: 24px;
 }
 
-td.down {
+#gameboard td.down {
 	border: 1px solid gray;
 	min-width: 28px;
 	width: 28px;
